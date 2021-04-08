@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Mortgage Site</title>
+
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Custom fonts for this template -->
+    <link
+      href="{% static 'vendor/fontawesome-free/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <button
+          class="navbar-toggler navbar-toggler-right"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#calc-form"
+                >Calculate Mortgage Installment</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header
+      class="masthead"
+      style="background-image: url('../static/img/home-bg.jpg')"
+    >
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h2 class="site-heading-tag">Canada Mortgage Site</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form class="calc-form" id="calc-form">
+            {% csrf_token %}
+            <div class="form-group row" align="center">
+              <input
+                type="text"
+                name="mAmount"
+                id="mAmount"
+                class="form-control col-6"
+                placeholder="enter mortgage amount"
+              />
+            </div>
+            <div class="form-group row">
+              <select
+                class="form-control calc-control col-6"
+                name="termYear"
+                id="termYear"
+              >
+                <option value="0.5">0.5 year</option>
+                <option value="2">2 years</option>
+                <option value="3">3 years</option>
+                <option value="4">4 years</option>
+                <option value="5">5 years</option>
+                <option value="6">6 years</option>
+                <option value="7">7 years</option>
+                <option value="8">8 years</option>
+                <option value="9">9 years</option>
+                <option value="10">10 years</option>
+                <option value="11">11 years</option>
+                <option value="12">12 years</option>
+                <option value="13">13 years</option>
+                <option value="14">14 years</option>
+                <option value="15">15 years</option>
+                <option value="16">16 years</option>
+                <option value="17">17 years</option>
+                <option value="18">18 years</option>
+                <option value="19">19 years</option>
+                <option value="21">21 years</option>
+                <option value="22">22 years</option>
+                <option value="23">23 years</option>
+                <option value="24">24 years</option>
+                <option value="25" selected>25 years</option>
+              </select>
+            </div>
+            <div class="form-group row">
+              {% for r in rates %}
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="rateRadio"
+                  value="{{r.rate}}"
+                />
+                <label class="form-check-label" for="radio{{r.rate}}"
+                  >{{r.term}}-{{r.rate|floatformat:2}}%</label
+                >
+              </div>
+              {% endfor %}
+            </div>
+            <div class="form-group row">
+              <button type="submit" class="btn btn-primary col-4">
+                Calculate
+              </button>
+            </div>
+            <div class="form-group row">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-primary col-12 calc-result"
+                >Monthly Installment</a
+              >
+            </div>
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {% for b in blogs %}
+          <div class="post-preview">
+            <a href="post.html">
+              <h2 class="post-title">{{ b.blog_title }}</h2>
+              <h3 class="post-subtitle">{{ b.sub_title | truncatewords:7 }}</h3>
+            </a>
+          </div>
+          <hr />
+          {% endfor %}
+          <!-- Pager -->
+          <div class="clearfix">
+            <a class="btn btn-primary float-right" href="blog/"
+              >Older Posts &rarr;</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Bootstrap core JavaScript -->
+    <script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'js/clean-blog.min.js' %}"></script>
+    <script>
+      $(document).ready(function () {
+        $("#calc-form").submit(function (e) {
+          e.preventDefault();
+          var amount = $("#mAmount").val();
+          amount = Number(amount);
+          var rate = $('input[name="rateRadio"]:checked').val();
+          var year = $("#termYear").val();
+          if (amount == "" || amount == null) {
+            alert("Enter monthly amount");
+          } else if (amount < 0) {
+            alert("Enter valid amount");
+          } else {
+            $.ajax({
+              type: "post",
+              url: "{% url 'calc_app:calc_amount' %}",
+              data: {
+                amount: amount,
+                rate: rate,
+                year: year,
+                csrfmiddlewaretoken: $(
+                  'input[name="csrfmiddlewaretoken"]'
+                ).val(),
+              },
+              cache: false,
+              success: function (data) {
+                if (data.success) {
+                  $(".calc-result").html(data.result + "/Month");
+                } else {
+                  alert(data.err);
+                }
+              },
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
